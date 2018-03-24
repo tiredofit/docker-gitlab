@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+
+if [[ -n "${DEBUG}" ]]; then
+    set -x
+fi
+
+set -e
+HOME=${GITLAB_HOME}
+
+cd ${GITLAB_INSTALL_DIR}
+  
