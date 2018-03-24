@@ -1,4 +1,4 @@
-# tiredofit/gitlab-ee:latest
+# tiredofit/gitlab:latest
 
 - [Introduction](#introduction)
     - [Changelog](CHANGLOG.md)
@@ -64,13 +64,13 @@
 
 # Introduction
 
-Dockerfile to build a [GitLab Enterprise Edition](https://about.gitlab.com/) image for the [Docker](https://www.docker.com/products/docker-engine) opensource container platform.
+Dockerfile to build a [GitLab Community Edition](https://about.gitlab.com/) image for the [Docker](https://www.docker.com/products/docker-engine) opensource container platform.
 
-GitLab EE is set up in the Docker image using the [install from source](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/install/installation.md) method as documented in the the official GitLab documentation.
+GitLab EE is set up in the Docker image using the [install from source](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/install/installation.md) method as documented in the the official GitLab documentation.
 
 This Container uses a [customized Alpine Linux base](https://hub.docker.com/r/tiredofit/alpine) which includes [s6 overlay](https://github.com/just-containers/s6-overlay) enabled for PID 1 Init capabilities, [zabbix-agent](https://zabbix.org) based on 3.4 Packages for individual container monitoring, Cron also installed along with other tools (bash,curl, less, logrotate, nano, vim) for easier management. It also supports sending to external SMTP servers..
 
-For other methods to install GitLab please refer to the [Official GitLab Installation Guide](https://about.gitlab.com/installation/) which includes a [GitLab image for Docker](https://gitlab.com/gitlab-org/gitlab-ee/tree/master/docker).
+For other methods to install GitLab please refer to the [Official GitLab Installation Guide](https://about.gitlab.com/installation/) which includes a [GitLab image for Docker](https://gitlab.com/gitlab-org/gitlab-ce/tree/master/docker).
 
 # Issues
 
@@ -106,18 +106,18 @@ Your docker host needs to have 1GB or more of available RAM to run GitLab. Pleas
 Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/tiredofit/gitlab) and is the recommended method of installation.
 
 ```bash
-docker pull tiredofit/gitlab-ee:latest
+docker pull tiredofit/gitlab:latest
 ```
 You can also pull the `latest` tag which is built from the repository *HEAD*
 
 ```bash
-docker pull tiredofit/gitlab-ee:latest
+docker pull tiredofit/gitlab:latest
 ```
 
 Alternatively you can build the image locally.
 
 ```bash
-docker build -t tiredofit/gitlab github.com/tiredofit/gitlab-ee
+docker build -t tiredofit/gitlab github.com/tiredofit/gitlab
 ```
 
 # Quick Start
@@ -125,7 +125,7 @@ docker build -t tiredofit/gitlab github.com/tiredofit/gitlab-ee
 The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/).
 
 ```bash
-wget https://raw.githubusercontent.com/tiredofit/gitlab-ee/master/examples/docker-compose.yml
+wget https://raw.githubusercontent.com/tiredofit/gitlab/master/examples/docker-compose.yml
 ```
 
 Generate random strings that are at least `64` characters long for each of `GITLAB_SECRETS_OTP_KEY_BASE`, `GITLAB_SECRETS_DB_KEY_BASE`, and `GITLAB_SECRETS_SECRET_KEY_BASE`. These values are used for the following:
@@ -174,7 +174,7 @@ docker run --name gitlab -d \
     --env 'GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alpha-numeric-string' \
     --env 'GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alpha-numeric-string' \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 *Please refer to [Available Configuration Parameters](#available-configuration-parameters) to understand `GITLAB_PORT` and other configuration options*
@@ -209,7 +209,7 @@ Volumes can be mounted in docker by specifying the `-v` option in the docker run
 ```bash
 docker run --name gitlab -d \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 ## Database
@@ -242,7 +242,7 @@ docker run --name gitlab -d \
     --env 'DB_NAME=gitlabhq_production' \
     --env 'DB_USER=gitlab' --env 'DB_PASS=password' \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 #### Linking to PostgreSQL Container
@@ -286,7 +286,7 @@ We are now ready to start the GitLab application.
 ```bash
 docker run --name gitlab -d --link gitlab-postgresql:postgresql \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 Here the image will also automatically fetch the `DB_NAME`, `DB_USER` and `DB_PASS` variables from the postgresql container as they are specified in the `docker run` command for the postgresql container. This is made possible using the magic of docker links and works with the following images:
@@ -338,7 +338,7 @@ docker run --name gitlab -d \
     --env 'DB_NAME=gitlabhq_production' \
     --env 'DB_USER=gitlab' --env 'DB_PASS=password' \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 #### Linking to MySQL Container
@@ -381,7 +381,7 @@ We are now ready to start the GitLab application.
 ```bash
 docker run --name gitlab -d --link gitlab-mysql:mysql \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 Here the image will also automatically fetch the `DB_NAME`, `DB_USER` and `DB_PASS` variables from the mysql container as they are specified in the `docker run` command for the mysql container. This is made possible using the magic of docker links and works with the following images:
@@ -406,7 +406,7 @@ The image can be configured to use an external redis server. The configuration s
 ```bash
 docker run --name gitlab -it --rm \
     --env 'REDIS_HOST=192.168.1.100' --env 'REDIS_PORT=6379' \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 ### Linking to Redis Container
@@ -433,7 +433,7 @@ We are now ready to start the GitLab application.
 
 ```bash
 docker run --name gitlab -d --link gitlab-redis:redisio \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 ### Mail
@@ -446,7 +446,7 @@ If you are using Gmail then all you need to do is:
 docker run --name gitlab -d \
     --env 'SMTP_USER=USER@gmail.com' --env 'SMTP_PASS=PASSWORD' \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 Please refer the [Available Configuration Parameters](#available-configuration-parameters) section for the list of SMTP parameters that can be specified.
@@ -466,7 +466,7 @@ docker run --name gitlab -d \
     --env 'IMAP_USER=USER@gmail.com' --env 'IMAP_PASS=PASSWORD' \
     --env 'GITLAB_INCOMING_EMAIL_ADDRESS=USER+%{key}@gmail.com' \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 Please refer the [Available Configuration Parameters](#available-configuration-parameters) section for the list of IMAP parameters that can be specified.
@@ -543,7 +543,7 @@ docker run --name gitlab -d \
     --env 'GITLAB_SSH_PORT=10022' --env 'GITLAB_PORT=10443' \
     --env 'GITLAB_HTTPS=true' --env 'SSL_SELF_SIGNED=true' \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 In this configuration, any requests made over the plain http protocol will automatically be redirected to use the https protocol. However, this is not optimal when using a load balancer.
@@ -559,7 +559,7 @@ docker run --name gitlab -d \
  --env 'GITLAB_HTTPS=true' --env 'SSL_SELF_SIGNED=true' \
  --env 'NGINX_HSTS_MAXAGE=2592000' \
  --volume /data/gitlab/gitlab:/home/git/data \
- tiredofit/gitlab-ee:latest
+ tiredofit/gitlab:latest
 ```
 
 If you want to completely disable HSTS set `NGINX_HSTS_ENABLED` to `false`.
@@ -582,7 +582,7 @@ docker run --name gitlab -d \
     --env 'GITLAB_SSH_PORT=10022' --env 'GITLAB_PORT=443' \
     --env 'GITLAB_HTTPS=true' --env 'SSL_SELF_SIGNED=true' \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 Again, drop the `--env 'SSL_SELF_SIGNED=true'` option if you are using CA certified SSL certificates.
@@ -602,8 +602,8 @@ This is simply done by adding the servers certificate into their list of trusted
 Again, this is a client side configuration which means that everyone who is going to communicate with the server should perform this configuration on their machine. In short, distribute the `gitlab.crt` file among your developers and ask them to add it to their list of trusted ssl certificates. Failure to do so will result in errors that look like this:
 
 ```bash
-git clone https://git.local.host/gitlab-ee.git
-fatal: unable to access 'https://git.local.host/gitlab-ee.git': server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none
+git clone https://git.local.host/gitlab-ce.git
+fatal: unable to access 'https://git.local.host/gitlab-ce.git': server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none
 ```
 
 You can do the same at the web browser. Instructions for installing the root certificate for firefox can be found [here](http://portal.threatpulse.com/docs/sol/Content/03Solutions/ManagePolicy/SSL/ssl_firefox_cert_ta.htm). You will find similar options chrome, just make sure you install the certificate under the authorities tab of the certificate manager dialog.
@@ -630,7 +630,7 @@ Let's assume we want to deploy our application to '/git'. GitLab needs to know t
 docker run --name gitlab -it --rm \
     --env 'GITLAB_RELATIVE_URL_ROOT=/git' \
     --volume /data/gitlab/gitlab:/home/git/data \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 GitLab will now be accessible at the `/git` path, e.g. `http://www.example.com/git`.
@@ -758,14 +758,14 @@ Also the container processes seem to be executed as the host's user/group `1000`
 ```bash
 docker run --name gitlab -it --rm [options] \
     --env "USERMAP_UID=$(id -u git)" --env "USERMAP_GID=$(id -g git)" \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 When changing this mapping, all files and directories in the mounted data volume `/home/git/data` have to be re-owned by the new ids. This can be achieved automatically using the following command:
 
 ```bash
 docker run --name gitlab -d [OPTIONS] \
-    tiredofit/gitlab-ee:latest app:sanitize
+    tiredofit/gitlab:latest app:sanitize
 ```
 
 ### Piwik
@@ -1037,7 +1037,7 @@ Execute the rake task to create a backup.
 
 ```bash
 docker run --name gitlab -it -e MODE=RAKE -e RAKE_TASK=gitlab:backup:create --rm [OPTIONS] \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 A backup will be created in the backups folder of the [Data Store](#data-store). You can change the location of the backups using the `GITLAB_BACKUP_DIR` configuration parameter.
@@ -1060,14 +1060,14 @@ you need to prepare the database:
 
 ```bash
 docker run --name gitlab -it -e MODE=RAKE -e RAKE_TASK=db:setup--rm [OPTIONS] \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 Execute the rake task to restore a backup. Make sure you run the container in interactive mode `-it`.
 
 ```bash
 docker run --name gitlab -it -e MODE=RAKE -e RAKE_TASK=gitlab:backup:restore --rm [OPTIONS] \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 The list of all available backups will be displayed in reverse chronological order. Select the backup you want to restore and continue.
@@ -1076,7 +1076,7 @@ To avoid user interaction in the restore operation, specify the timestamp of the
 
 ```bash
 docker run --name gitlab -it -e MODE=RAKE -e RAKE_TASK=gitlab:backup:restore BACKUP=1417624827 --rm [OPTIONS] \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 
@@ -1119,7 +1119,7 @@ The `app:rake` command allows you to run gitlab rake tasks. To run a rake task s
 
 ```bash
 docker run --name gitlab -it -e MODE=RAKE -e RAKE_TASK=gitlab:env:info --rm [OPTIONS] \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 You can also use `docker exec` to run raketasks on running gitlab instance. For example,
@@ -1132,7 +1132,7 @@ Similarly, to import bare repositories into GitLab project instance
 
 ```bash
 docker run --name gitlab -it -e MODE=RAKE -e RAKE_TASK=gitlab:import:repos --rm [OPTIONS] \
-    tiredofit/gitlab-ee:latest
+    tiredofit/gitlab:latest
 ```
 
 Or
@@ -1163,7 +1163,7 @@ Copy all the **bare** git repositories to the `repositories/` directory of the [
 
 ```bash
 docker run --name gitlab -it -e MODE=RAKE -e RAKE_TASK=gitlab:import:repos --rm [OPTIONS] \
-    tiredofit/gitlab-ee:latest 
+    tiredofit/gitlab:latest 
 ```
 
 Watch the logs and your repositories should be available into your new gitlab container.
@@ -1182,7 +1182,7 @@ To upgrade to newer gitlab releases, simply follow this 4 step upgrade procedure
 - **Step 1**: Update the docker image.
 
 ```bash
-docker pull tiredofit/gitlab-ee:latest
+docker pull tiredofit/gitlab:latest
 ```
 
 - **Step 2**: Stop and remove the currently running image
@@ -1203,7 +1203,7 @@ Replace `x.x.x` with the version you are upgrading from. For example, if you are
 - **Step 4**: Start the image
 
 ```bash
-docker run --name gitlab -d [OPTIONS] tiredofit/gitlab-ee:latest
+docker run --name gitlab -d [OPTIONS] tiredofit/gitlab:latest
 ```
 
 ## Shell Access
