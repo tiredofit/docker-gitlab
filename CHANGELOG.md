@@ -5,6 +5,6 @@
 * Elements from sameersbn/gitlab and wodby/gitlab (Thanks!)
 
 
-## 1.0
+## 2018-02-21 1.0  <dave at tiredofit dot ca>
 
-* Original based on sameersbn/gitlab
+* Original based on sameersbn/gitlab for private in house purposes w/ Zabbix and other mods.

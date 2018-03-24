@@ -12,7 +12,6 @@ fi
 
 echo ''
 echo '** [sidekiq] Starting Sidekiq'
-#exec su - -c '/usr/bin/with-contenv /etc/init.d/sidekiq' git
 HOME=${GITLAB_HOME}
 
 cd ${GITLAB_INSTALL_DIR}

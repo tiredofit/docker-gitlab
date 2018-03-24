@@ -14,7 +14,6 @@ fi
 
 echo ''
 echo '** [pages] Starting Pages'
-#exec su - -c '/usr/bin/with-contenv /etc/init.d/pages'
 HOME=${GITLAB_HOME}
 
 cd ${GITLAB_INSTALL_DIR}

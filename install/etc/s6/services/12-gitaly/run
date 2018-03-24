@@ -13,7 +13,6 @@ fi
 
 echo ''
 echo '** [gitaly] Starting Gitaly'
-#exec su - -c '/usr/bin/with-contenv /etc/init.d/gitaly' git
 HOME=${GITLAB_HOME}
 set -e
 

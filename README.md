@@ -1,5 +1,11 @@
 # tiredofit/gitlab:latest
 
+[![Build Status](https://img.shields.io/docker/build/tiredofit/gitlab.svg)](https://hub.docker.com/r/tiredofit/gitlab)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/gitlab.svg)](https://hub.docker.com/r/tiredofit/gitlab)
+[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/gitlab.svg)](https://hub.docker.com/r/tiredofit/gitlab)
+[![Docker Layers](https://images.microbadger.com/badges/image/tiredofit/gitlab.svg)](https://microbadger.com/images/tiredofit/gitlab)
+[![Image Size](https://img.shields.io/microbadger/image-size/tiredofit/gitlab.svg)](https://microbadger.com/images/tiredofit/gitlab)
+
 - [Introduction](#introduction)
     - [Changelog](CHANGLOG.md)
 - [Issues](#issues)
