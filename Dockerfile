@@ -19,10 +19,6 @@ ENV GITLAB_INSTALL_DIR="${GITLAB_HOME}/gitlab" \
     GITLAB_BUILDS_DIR="${GITLAB_DATA_DIR}/builds" \
     GITLAB_UPLOADS_DIR="${GITLAB_DATA_DIR}/uploads" \
 
-    GITLAB_USER="git" \
-    GITLAB_HOME="/home/git" \
-    GITLAB_LOG_DIR="/var/log/gitlab" \
-
     # Temporary
     GITLAB_TEMP_DIR="${GITLAB_DATA_DIR}/tmp" \
     GITLAB_DOWNLOADS_DIR="${GITLAB_DATA_DIR}/tmp/downloads" \
