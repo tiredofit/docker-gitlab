@@ -226,7 +226,6 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     ln -sf "${GITLAB_DATA_DIR}/.ssh" "${GITLAB_HOME}/.ssh" && \
 
 ### Cleanup
-    set -x && \
     apk del --purge .gitlab-build-deps && \
     rm -rf ${GITLAB_INSTALL_DIR}/node_modules && \
     rm -rf ${GITLAB_HOME}/.bundle && \
