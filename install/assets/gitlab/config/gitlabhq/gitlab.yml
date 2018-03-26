@@ -222,7 +222,7 @@ production: &base
     pages_domain_verification_cron_worker:
       cron: "*/15 * * * *"
 
-    registry:
+  registry:
     enabled: {{GITLAB_REGISTRY_ENABLED}}
     host: {{GITLAB_REGISTRY_HOST}}
     port: {{GITLAB_REGISTRY_PORT}}
