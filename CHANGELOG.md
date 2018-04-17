@@ -1,4 +1,4 @@
-## 2018-04-16 10.6.4 <dave at tiredofit dot ca>
+## 2018-04-15 10.6.4 <dave at tiredofit dot ca>
 
 * Update to 10.6.4
 

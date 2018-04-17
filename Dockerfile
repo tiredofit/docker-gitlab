@@ -19,8 +19,7 @@ ENV GITLAB_INSTALL_DIR="${GITLAB_HOME}/gitlab" \
     GITLAB_DATA_DIR="${GITLAB_HOME}/data" \
     GITLAB_BUILD_DIR="/usr/src" \
     GITLAB_RUNTIME_DIR="${GITLAB_CACHE_DIR}/runtime" \
-    GITLAB_LOG_DIR="/var/log" \
-    MODE="START" 
+    GITLAB_LOG_DIR="/var/log"
 
 ### Add User
 RUN addgroup -g 1000 -S ${GITLAB_USER} && \
