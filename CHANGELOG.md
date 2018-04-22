@@ -1,3 +1,7 @@
+## 2018-04-22 10.7.0 <dave at tiredofit dot ca>
+
+* Update to 10.7.0
+
 ## 2018-04-15 10.6.4 <dave at tiredofit dot ca>
 
 * Update to 10.6.4
