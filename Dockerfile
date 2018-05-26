@@ -231,11 +231,11 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     rm -rf ${GITLAB_HOME}/.bundle && \
     rm -rf ${GITLAB_HOME}/.cache && \
     rm -rf ${GITLAB_HOME}/.yarn && \
-    rm -rf ${GITLAB_INSTALL_DIR}/.git && \
+    #rm -rf ${GITLAB_INSTALL_DIR}/.git && \
     rm -rf ${GITLAB_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_INSTALL_DIR}/docker* && \
     rm -rf ${GITLAB_INSTALL_DIR}/qa && \
-    rm -rf ${GITLAB_GITALY_INSTALL_DIR}/.git && \
+    #rm -rf ${GITLAB_GITALY_INSTALL_DIR}/.git && \
     rm -rf ${GITLAB_GITALY_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_GITALY_INSTALL_DIR}/Dockerfile && \
     rm -rf ${GITLAB_GITALY_INSTALL_DIR}/*.example && \
@@ -243,7 +243,7 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     rm -rf ${GITLAB_SHELL_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_SHELL_INSTALL_DIR}/*.example && \
     rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/_build && \
-    rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/.git && \
+    #rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/.git && \
     rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/testdata && \
     rm -rf ${GITLAB_PAGES_INSTALL_DIR}/.git && \
