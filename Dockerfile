@@ -1,11 +1,11 @@
 FROM tiredofit/ruby:2.3-alpine-latest
 
 ### Set Defaults and Arguments
-ENV GITLAB_VERSION="10.8.3" \
-    GITLAB_SHELL_VERSION="7.1.2" \
-    GITLAB_WORKHORSE_VERSION="4.2.1" \
+ENV GITLAB_VERSION="11.0.1" \
+    GITLAB_SHELL_VERSION="7.1.4" \
+    GITLAB_WORKHORSE_VERSION="4.3.1" \
     GITLAB_PAGES_VERSION="0.9.1" \
-    GITALY_SERVER_VERSION="0.100.1" \
+    GITALY_SERVER_VERSION="0.105.0" \
     GITLAB_USER="git" \
     GITLAB_HOME="/home/git" \
     RAILS_ENV="production" \
@@ -20,7 +20,7 @@ ENV GITLAB_INSTALL_DIR="${GITLAB_HOME}/gitlab" \
     GITLAB_BUILD_DIR="/usr/src" \
     GITLAB_RUNTIME_DIR="${GITLAB_CACHE_DIR}/runtime" \
     GITLAB_LOG_DIR="/var/log" \
-    MODE=START
+    MODE="START" 
 
 ### Add User
 RUN addgroup -g 1000 -S ${GITLAB_USER} && \
@@ -194,7 +194,6 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     rm -rf ${GITLAB_INSTALL_DIR}/.secret && \
     su-exec git ln -sf ${GITLAB_DATA_DIR}/.secret ${GITLAB_INSTALL_DIR}/.secret && \
 
-    ### WORKAROUND for https://github.com/sameersbn/docker-gitlab/issues/509
     rm -rf ${GITLAB_INSTALL_DIR}/builds && \
     rm -rf ${GITLAB_INSTALL_DIR}/shared && \
 
@@ -232,19 +231,14 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     rm -rf ${GITLAB_HOME}/.cache && \
     rm -rf ${GITLAB_HOME}/.yarn && \
     #rm -rf ${GITLAB_INSTALL_DIR}/.git && \
-    rm -rf ${GITLAB_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_INSTALL_DIR}/docker* && \
     rm -rf ${GITLAB_INSTALL_DIR}/qa && \
     #rm -rf ${GITLAB_GITALY_INSTALL_DIR}/.git && \
     rm -rf ${GITLAB_GITALY_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_GITALY_INSTALL_DIR}/Dockerfile && \
-    rm -rf ${GITLAB_GITALY_INSTALL_DIR}/*.example && \
     rm -rf ${GITLAB_GITALY_INSTALL_DIR}/Makefile && \
-    rm -rf ${GITLAB_SHELL_INSTALL_DIR}/*.md && \
-    rm -rf ${GITLAB_SHELL_INSTALL_DIR}/*.example && \
     rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/_build && \
     #rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/.git && \
-    rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/testdata && \
     rm -rf ${GITLAB_PAGES_INSTALL_DIR}/.git && \
     rm -rf /usr/local/bundle/cache && \

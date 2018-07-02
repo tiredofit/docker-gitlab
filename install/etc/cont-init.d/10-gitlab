@@ -10,7 +10,6 @@ s6-svc -d /var/run/s6/services/12-gitaly
 s6-svc -d /var/run/s6/services/13-sidekiq
 s6-svc -d /var/run/s6/services/14-workhorse
 s6-svc -d /var/run/s6/services/15-mailroom
-#s6-svc -d /var/run/s6/services/16-pages
 s6-svc -d /var/run/s6/services/17-sshd
 
 source /assets/gitlab/functions
