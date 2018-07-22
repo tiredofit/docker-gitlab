@@ -1,3 +1,16 @@
+## 2018-07-18 11.0.4 <dave at tiredofit dot ca>
+
+* Update to Gitlab 11.0.4
+
+## 2018-07-02 11.0.3 <dave at tiredofit dot ca>
+
+* Update to Gitlab 11.0.3
+* Ruby 2.4
+
+## 2018-07-02 11.0.2 <dave at tiredofit dot ca>
+
+* Update to Gitlab 11.0.2
+
 ## 2018-07-02 11.0.1 <dave at tiredofit dot ca>
 
 * Update to Gitlab 11.0.1
