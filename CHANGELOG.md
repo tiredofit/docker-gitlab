@@ -1,4 +1,4 @@
-## 2018-08-25 11.2.0 <dave at tiredofit dot ca>
+## 11.2.0 2018-08-25 <dave at tiredofit dot ca>
 
 * Update to Gitlab 11.2.0
 
