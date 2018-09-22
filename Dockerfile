@@ -120,10 +120,10 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     su-exec git bundle exec rake gitlab:assets:compile USE_DB=false SKIP_STORAGE_VALIDATION=true && \
     \
     ### PO files
-    su-exec git bundle exec rake gettext:pack && \
-    su-exec git bundle exec rake gettext:po_to_json && \
+    su-exec git bundle exec rake gettext:compile RAILS_ENV=production && \
     \
 ### Download and Install Gitlab-Shell
+    cd ${GITLAB_HOME} && \    
     GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/repository/archive.tar.gz && \
     GITLAB_SHELL_VERSION=${GITLAB_SHELL_VERSION:-$(cat ${GITLAB_INSTALL_DIR}/GITLAB_SHELL_VERSION)} && \
     echo "Downloading gitlab-shell v.${GITLAB_SHELL_VERSION}..." && \
