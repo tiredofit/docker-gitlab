@@ -1,3 +1,11 @@
+## 11.5.0 2018-11-22 dave at tiredofit dot ca>
+
+* Update to Gitlab 11.5.0
+
+## 11.4.4 2018-10-28 dave at tiredofit dot ca>
+
+* Update to Gitlab 11.4.4
+
 ## 11.4.3 2018-10-28 dave at tiredofit dot ca>
 
 * Update to Gitlab 11.4.3
