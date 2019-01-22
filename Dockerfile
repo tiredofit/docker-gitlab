@@ -74,6 +74,7 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
         mariadb-dev \
         ncurses-dev \
         nodejs \
+        npm \
         patch \
         postgresql-dev \
         readline-dev \
@@ -83,7 +84,7 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
         && \
     \
     rm -rf /etc/nginx/conf.d/default.conf && \
-    curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --rc && \
+    npm install -g yarn@v1.13 && \
     \
 ### Temporary install package to get specific bins
     apk add --update redis postgresql && \
@@ -230,6 +231,7 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     ln -sf "${GITLAB_DATA_DIR}/.ssh" "${GITLAB_HOME}/.ssh" && \
     \
 ### Cleanup
+    npm uninstall -g yarn && \
     apk del --purge .gitlab-build-deps && \
     rm -rf ${GITLAB_INSTALL_DIR}/node_modules && \
     rm -rf ${GITLAB_HOME}/.bundle && \
