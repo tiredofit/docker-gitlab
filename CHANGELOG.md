@@ -1,3 +1,7 @@
+## 11.7.0.1 2019-01-22 dave at tiredofit dot ca>
+
+* Switch to Manually Installed Yarn
+
 ## 11.7.0 2019-01-22 <dave at tiredofit dot ca>
 
 * Gitlab CE 11.7.0
