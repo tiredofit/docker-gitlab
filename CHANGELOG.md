@@ -1,3 +1,11 @@
+## 11.8.0 2019-02-22 <dave at tiredofit dot ca>
+
+* Update to Gitlab 11.8.0
+
+## 11.7.4 2019-02-07 dave at tiredofit dot ca>
+
+* Gitlab 11.7.4
+
 ## 11.7.0.2 2019-01-22 <dave at tiredofit dot ca>
 
 * Cleanup manually installed yarn
@@ -6,9 +14,17 @@
 
 * Switch to Manually Installed Yarn
 
-## 11.7.0 2019-01-22 <dave at tiredofit dot ca>
+## 11.7.0 2019-01-22 dave at tiredofit dot ca>
 
-* Gitlab CE 11.7.0
+* Gitlab 11.7.0
+
+## 11.6.1.1 2019-01-02 <dave at tiredofit dot ca>
+
+* Add debug mode, fix some startup issues
+
+## 11.6.1 2019-01-02 <dave at tiredofit dot ca>
+
+* Gitlab 11.6.1
 
 ## 11.6.0 2018-12-22 <dave at tiredofit dot ca>
 
