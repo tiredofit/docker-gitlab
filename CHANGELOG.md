@@ -1,3 +1,8 @@
+## 11.10.1.2 2019-04-25 <dave at tiredofit dot ca>
+
+* Switch to Ruby 2.5
+* Merge changes from tiredofit/gitlab-ee to this repository
+
 ## 11.10.1 2019-04-23 <dave at tiredofit dot ca>
 
 * Update to Gitlab 11.10.1

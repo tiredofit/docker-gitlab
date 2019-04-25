@@ -1,8 +1,8 @@
-FROM tiredofit/ruby:2.4-alpine-latest
+FROM tiredofit/alpine:3.8
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults and Arguments
-ENV GITLAB_VERSION="11.10.1-ee" \
+ENV GITLAB_VERSION="11.10.1" \
     GITLAB_SHELL_VERSION="9.0.0" \
     GITLAB_WORKHORSE_VERSION="8.5.1" \
     GITLAB_PAGES_VERSION="1.5.0" \
@@ -24,35 +24,45 @@ ENV GITLAB_INSTALL_DIR="${GITLAB_HOME}/gitlab" \
     MODE="START" 
 
 ### Add User
-RUN addgroup -g 1000 -S ${GITLAB_USER} && \
-	adduser -u 1000 -D -S -s /bin/bash -G ${GITLAB_USER} ${GITLAB_USER} && \
-	sed -i '/^git/s/!/*/' /etc/shadow && \
-	echo "PS1='\w\$ '" >> ${GITHOME_HOME}/.bashrc && \
+RUN set -x && \
+    addgroup -g 1000 -S ${GITLAB_USER} && \
+    adduser -u 1000 -D -S -s /bin/bash -G ${GITLAB_USER} ${GITLAB_USER} && \
+    sed -i '/^git/s/!/*/' /etc/shadow && \
+    echo "PS1='\w\$ '" >> ${GITHOME_HOME}/.bashrc && \
     echo "PATH=/usr/local/sbin:/usr/local/bin:\$PATH" >> ${GITLAB_HOME}/.profile && \
     \
 ### Install Dependencies
     apk add --update --no-cache -t .gitlab-rundeps \
+        gettext \
         git \
         grep \
         icu-libs \
         krb5-libs \
+        libcom_err \
         libc6-compat \
-        libre2 \
         libressl \
         make \
         mariadb-client \
         nginx \
+        nodejs \
         openssh \
         postgresql-client \
         python2 \
+        re2 \
         rsync \
+        ruby \
+        ruby-bigdecimal \
+        ruby-bundler \
+        ruby-irb \
+        ruby-json \
+        ruby-webrick \
         shadow \
         su-exec \
         sudo \
         tzdata \
         zip \
         && \
-    \
+        \
     apk add --update --no-cache -t .gitlab-build-deps \
         autoconf \
         build-base \
@@ -62,10 +72,9 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
         gdbm-dev \
         go \
         icu-dev \
-        krb5-dev \    
+        krb5-dev \
         libassuan-dev \
         libffi-dev \
-        libre2-dev \
         libressl-dev \
         libgcrypt-dev \
         libxml2-dev \
@@ -77,7 +86,9 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
         npm \
         patch \
         postgresql-dev \
+        re2-dev \
         readline-dev \
+        ruby-dev \
         sqlite-dev \
         yaml-dev \
         zlib-dev \
@@ -101,12 +112,13 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     chown -R ${GITLAB_USER}:${GITLAB_USER} ${GITLAB_INSTALL_DIR} && \
     su-exec git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_DIR}/app/controllers/application_controller.rb && \
     cd ${GITLAB_INSTALL_DIR} && \
-    chown -R ${GITLAB_USER}:${GITLAB_USER} /usr/local/lib/ruby/gems/2.4.0/ && \
-    chown -R ${GITLAB_USER}:${GITLAB_USER} /usr/local/bundle/ && \
+    chown -R ${GITLAB_USER}:${GITLAB_USER} /usr/lib/ruby/gems/2.5.0/ && \
+#    chown -R ${GITLAB_USER}:${GITLAB_USER} /usr/local/bundle/ && \
     \
     ### Install gems (build from source).
     export BUNDLE_FORCE_RUBY_PLATFORM=1 && \
-    su-exec git bundle install -j$(nproc) --deployment --verbose --without development test aws kerberos  && \
+    export CPU_COUNT=`awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo` && \
+    su-exec git bundle install --jobs $CPU_COUNT --deployment --verbose --without development test aws && \
     \
     ### Make sure everything in ${GITLAB_HOME} is owned by ${GITLAB_USER} user
     chown -R ${GITLAB_USER}: ${GITLAB_HOME} && \
@@ -119,13 +131,16 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     ### Compile assets
     su-exec git yarn install --production --pure-lockfile && \
     su-exec git yarn add ajv@^4.0.0 && \
-    su-exec git bundle exec rake gitlab:assets:compile USE_DB=false SKIP_STORAGE_VALIDATION=true && \
+    \
+    cd ${GITLAB_INSTALL_DIR} && \
+    #### Add NO_SOURCEMAPS to 11.6.1 for OOM issues
+    su-exec git bundle exec rake gitlab:assets:compile NO_SOURCEMAPS=false USE_DB=false SKIP_STORAGE_VALIDATION=true && \
     \
     ### PO files
     su-exec git bundle exec rake gettext:compile RAILS_ENV=production && \
     \
 ### Download and Install Gitlab-Shell
-    cd ${GITLAB_HOME} && \    
+    cd ${GITLAB_HOME} && \
     GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/repository/archive.tar.gz && \
     GITLAB_SHELL_VERSION=${GITLAB_SHELL_VERSION:-$(cat ${GITLAB_INSTALL_DIR}/GITLAB_SHELL_VERSION)} && \
     echo "Downloading gitlab-shell v.${GITLAB_SHELL_VERSION}..." && \
@@ -169,6 +184,8 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     export BUNDLE_FORCE_RUBY_PLATFORM=1 && \
     make install && \
     make clean && \
+    ## Symbolic Link hack to fix problem with Gitlab Upstream
+    ln -s /usr/local/bin/gitaly-ssh /home/git/gitaly/gitaly-ssh && \
     \
 ### Filesystem Cleanup and Setup
     ### revert `rake gitlab:setup` changes from gitlabhq/gitlabhq@a54af831bae023770bf9b2633cc45ec0d5f5a66a
@@ -237,15 +254,17 @@ RUN addgroup -g 1000 -S ${GITLAB_USER} && \
     rm -rf ${GITLAB_HOME}/.bundle && \
     rm -rf ${GITLAB_HOME}/.cache && \
     rm -rf ${GITLAB_HOME}/.yarn && \
-    #rm -rf ${GITLAB_INSTALL_DIR}/.git && \
+    rm -rf ${GITLAB_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_INSTALL_DIR}/docker* && \
     rm -rf ${GITLAB_INSTALL_DIR}/qa && \
-    #rm -rf ${GITLAB_GITALY_INSTALL_DIR}/.git && \
     rm -rf ${GITLAB_GITALY_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_GITALY_INSTALL_DIR}/Dockerfile && \
+    rm -rf ${GITLAB_GITALY_INSTALL_DIR}/*.example && \
     rm -rf ${GITLAB_GITALY_INSTALL_DIR}/Makefile && \
+    rm -rf ${GITLAB_SHELL_INSTALL_DIR}/*.md && \
+    rm -rf ${GITLAB_SHELL_INSTALL_DIR}/*.example && \
     rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/_build && \
-    #rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/.git && \
+    rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/*.md && \
     rm -rf ${GITLAB_WORKHORSE_INSTALL_DIR}/testdata && \
     rm -rf ${GITLAB_PAGES_INSTALL_DIR}/.git && \
     rm -rf /usr/local/bundle/cache && \
