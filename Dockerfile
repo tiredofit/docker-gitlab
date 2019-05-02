@@ -2,11 +2,11 @@ FROM tiredofit/alpine:3.8
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults and Arguments
-ENV GITLAB_VERSION="11.10.1" \
+ENV GITLAB_VERSION="11.10.4" \
     GITLAB_SHELL_VERSION="9.0.0" \
-    GITLAB_WORKHORSE_VERSION="8.5.1" \
+    GITLAB_WORKHORSE_VERSION="8.5.2" \
     GITLAB_PAGES_VERSION="1.5.0" \
-    GITALY_SERVER_VERSION="1.34.0" \
+    GITALY_SERVER_VERSION="1.34.1" \
     GITLAB_USER="git" \
     GITLAB_HOME="/home/git" \
     RAILS_ENV="production" \
